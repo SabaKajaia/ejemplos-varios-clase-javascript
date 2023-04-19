@@ -5,80 +5,92 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <style>
-        h1 {
-            color: red;
-        }
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@1/css/pico.min.css">
 
-        .encuadra {
-            border: 5px solid rgb(18, 123, 43);
+    <title>Eventos JavaScript</title>
+    <style>
+        p {
+            font-size: 1.5rem;
         }
     </style>
 </head>
 
 <body>
-    <h1 id="titulo">Developers facts</h1>
-    <h2 class="clase1 clase2 clase3">Cosas que necesitamos para ser una buena programadora</h2>
-    <ul class="encuadra">
-        <li id="primer-item">Llevar bien la frustración</li>
-        <li>Practicar mucho</li>
-        <li>Ser generoso con los <em>paddings</em></li>
-    </ul>
+    <main class="container">
+        <h1>Práctica con eventos</h1>
+        <h2>Wonderboxes</h2>
+        <select name="" id="filtro-actividades">
+            <option value="todas">Todas las actividades</option>
+
+            <option value="en-pareja">En pareja, enamorate más</option>
+            <option value="con-amigos">Con amigos, vais a disfrutar</option>
+            <option value="en-familia">En familia, de tranquis</option>
+        </select>
+        <article id="actividad-apicultura">
+            <h3>Apicultura</h3>
+            <p>A disfrutar con abejas</p>
+            <!-- Podemos asociar un evento en un atributo HTML. El valor (lo que va entre comillas) es directamente código JavaScript  -->
+            <button onclick="console.log('Añado la experiencia de las abejas al carrito de compra')">Adquirir</button>
+        </article>
+        <article>
+            <h3>Escalada</h3>
+            <p>Sube las mejores montañas</p>
+            <button id="escalada">Adquirir</button>
+        </article>
+        <article>
+            <h3>Buceo</h3>
+            <p>Verás tiburones</p>
+            <button class="buceo">Adquirir</button>
+        </article>
+    </main>
     <script>
+        // 3 formas diferentes de asociar un evento a un elemento HTML
 
-        // document: objeto global de JavaScript que nos permite realizar operaciones sobre el documento que hemos cargado y contiene información del mismo
+        // 1. Atributo HTML
 
-        // querySelector: es una función del objeto document, que nos permite recuperar un nodo del DOM
+        // 2. Todos los objetos del DOM tienen varias propiedades para definir eventos JavaScript. onclick, ondblclick, etc. 
+        // Tenemos que asignarle una función a esa propiedad que el navegador va a ejecutar cuando hagamos click
+        document.querySelector('#escalada').onclick = function () {
+            console.log('Añadir escalada al carrito de compra.')
+        }
 
-        // querySelector(:selectorCSS) : La función querySelector requiere que le pasamos un selector CSS. Esta función va a devolver un objeto. Este objeto es un nodo del DOM
+        // Ejercicio. Asocia un evento click al botón de la experiencia de buceo, y cuando el usuario haga click muestra por consola 'Añadir experiencia de buceo al carrito.'. No copiar y pegar el querySelector, escribidlo todo. Si os da error, mirad la Console del navegador.
+        document.querySelector('.buceo').onclick = function () {
+            console.log('Añadir buceo al carrito de compra');
+        }
 
-        // Cada nodo del DOM contiene un conjunto de propiedades, que nos permite consultar o modificar varias partes de este nodo.
+        // La última forma de añadir eventos a un elemento HTML es a través de un listener. Vamos a 'escuchar' al evento 'change'. "Cuando cambie el valor del <select>, ejecuta función que te he asociado"
 
-        // Por ejemplo, la propiedad .textConent nos permite consultar o modificar su valor textual
-        // La propiedad style, es un objeto que contiene todos los posibles estilos en línea para ese elemento
-        // La propiedad classList es una estrctura de datos, que nos permite añadir o quitar clases CSS
+        // addEventListener es una función que tienen todos los objetos del DOM. Permiten asociar un evento a un elemento El primer parámetro, es el tipo de evento, formato string, y el segundo parámetro es una función que se va ejectutar cuando se capture el evento
+        document.querySelector('#filtro-actividades').addEventListener('change', function () {
 
+            // Ejercicio: Recupera el nodo identificado con el id="filtro-actividades" y muestra por consola el valor de la propiedad 'value' de este objeto. Deberia salir el valor atributo 'value' de la opción seleccionada
+            let filtroSeleccionado = document.querySelector('#filtro-actividades').value;
+            console.log('Filtame las actividades por: ', filtroSeleccionado);
 
-        console.dir(document.querySelector('h2')) // selector CSS en formato string
+            // Ejercicio: Si el usuario selecciona el filtro "en-pareja", NO quiero que se muestre la actividad de Apicultura
 
-        console.log(document.querySelector('h2').textContent); //acceder a la propiedad textContent del h2
+            // En cuanto seleccione el filtro 'en-pareja', vamos a ocultar la actividad de la Apicultura
+            // En la variable filtroSeleccionado tengo el valor de la opción que ha seleccionado el usuario
 
-        //Asigname a la variable titulo el textContent del h1
-        let titulo = document.querySelector('h1').textContent;
-        console.log("titulo del h1: ", titulo);
+            // Si filtroSeleccionado es igual a 'en-pareja'-> recupera el nodo de <article> que identifica la apicultura, y actualiza el estilo en línea de display a 'none' (2 líneasde código)
 
-        // Modifica la propiedad textContent del nodo h1, con el valor 'JavaScript mola'
-        document.querySelector('h1').textContent = 'JavaScript mola mogollón';
+ const actividadApicultura = document.querySelector("#actividad-apicultura");
 
-        // Modifica la propiedad textContent del primer li, para que ponga 'No te frustres!'
-        document.querySelector('#primer-item').textContent = 'No te frustes!';
+// Para solucionar el ejercicio, vamos a añadir el evento onchange al select de filtroActividades
 
-        // Modifica los estilos el línea del texto 'paddings' para cambiar su color a 'green'
-        document.querySelector('em').style.color = 'rgb(0, 255, 0)';
-        document.querySelector('em').style.fontSize = '5rem';
-
-
-        // Si quisiera poner un borde verde de 1px al h1 con estilos en línea
-
-        // classList tiene todas las clases CSS asociadas a este elemento 
-        document.querySelector('h1').classList.add('encuadra');
-
-        document.querySelector('li').classList.add('encuadra');
-
-
-        // eliminar una clase CSS de un elemento
-        document.querySelector('ul').classList.remove('encuadra');
-
-        // Cambia el color del background-color de todo los li a amarillo
-
-        //1. Seleccionar todos los li del documento
-        //2. Para cada elemento, cambia el estilo en linea backgroundColor a 'yellow'
-        // https://lenguajejs.com/javascript/dom/seleccionar-elementos-dom/#queryselectorall
-        document.querySelectorAll('li').forEach(item => {
-            item.style.backgroundColor = 'yellow';
-            item.textContent = 'hola hola!';
+filtroActividades.addEventListener("change", function() {
+  const filtroSeleccionado = filtroActividades.value;
+  if (filtroSeleccionado === "en-pareja") {
+    actividadApicultura.style.display = "none";
+  } else {
+    actividadApicultura.style.display = "block";
+  }
+});
         });
+
+
+
 
     </script>
 </body>
